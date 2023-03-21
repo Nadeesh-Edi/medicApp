@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  ImageBackground
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { API_KEY } from "../../constants/constants";
@@ -87,6 +88,13 @@ const CreateAppointment = ({ navigation }) => {
 
   return (
     <View>
+      <ImageBackground
+      source={{
+        uri: "https://png.pngtree.com/background/20210709/original/pngtree-blue-medical-industry-hospital-doctor-poster-background-picture-image_954314.jpg",
+      }}
+      resizeMode="cover"
+      style={styles.backgroundImg}
+    >
       <ScrollView>
         <Text style={styles.titleText}>Appointment number</Text>
         <View style={styles.containerBox}>
@@ -139,7 +147,7 @@ const CreateAppointment = ({ navigation }) => {
             rowTextForSelection={(item, index) => {
               return item.name;
             }}
-            buttonStyle={styles.inputField}
+            buttonStyle={styles.selectionBox}
           ></SelectDropdown>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -161,6 +169,7 @@ const CreateAppointment = ({ navigation }) => {
           <View style={{ flex: 1 }}></View>
         </View>
       </ScrollView>
+      </ImageBackground>
 
       {/* Modal for success */}
       <Modal animationType="fade" transparent={true} visible={openSuccess}>
@@ -209,6 +218,7 @@ const styles = StyleSheet.create({
     borderColor: "#1AA7EC",
     borderWidth: 2,
     margin: 10,
+    backgroundColor: '#ffffff'
   },
   titleText: {
     fontSize: 17,
@@ -222,6 +232,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
     color: "#ffffff",
+    borderColor: '#ffffff',
+    borderWidth: 1
   },
   centeredView: {
     flex: 1,
@@ -230,6 +242,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 52,
   },
+  selectionBox: {
+    padding: 10,
+    borderRadius: 20,
+    borderColor: "#1AA7EC",
+    borderWidth: 1,
+    margin: 10,
+    backgroundColor: '#ffffff'
+  },
+  backgroundImg: {
+    height: '100%'
+  }
 });
 
 export default CreateAppointment;

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View, Text, Image, TouchableOpacity, ImageBackground } from "react-native";
 import { API_KEY } from "../../constants/constants";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
 
@@ -54,7 +54,14 @@ const ViewAllAppointments = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ backgroundColor: "#fff" }}>
+      <ImageBackground
+      source={{
+        uri: "https://png.pngtree.com/background/20210709/original/pngtree-blue-medical-industry-hospital-doctor-poster-background-picture-image_954314.jpg",
+      }}
+      resizeMode="cover"
+      style={styles.backgroundImg}
+    >
+      <ScrollView>
         {appointments.map((item, index) => {
           return (
             <View style={styles.listItem} key={index}>
@@ -78,7 +85,7 @@ const ViewAllAppointments = () => {
           );
         })}
       </ScrollView>
-
+      </ImageBackground>
       <DeleteConfirmPopup appId={selectedId} isShow={showDelete} closePop={closeDeletePopup}></DeleteConfirmPopup>
     </SafeAreaView>
   );
@@ -89,6 +96,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     borderColor: "#1AA7EC",
+    backgroundColor: '#ffffff',
     borderWidth: 1,
     margin: 10,
     flex: 1,
@@ -106,6 +114,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: '#e69b00',
     flex: 1
+  },
+  backgroundImg: {
+    height: '100%'
   }
 });
 
