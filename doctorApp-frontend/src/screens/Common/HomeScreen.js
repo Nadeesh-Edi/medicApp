@@ -27,7 +27,11 @@ const styles = StyleSheet.create({
     menuContainer: {
         marginTop: 50,
         marginLeft: 20,
-        marginRight: 20
+        marginRight: 20,
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 

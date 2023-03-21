@@ -163,34 +163,34 @@ const CreateAppointment = ({ navigation }) => {
       </ScrollView>
 
       {/* Modal for success */}
-      <View style={styles.centeredView}>
-          <Modal animationType="fade" transparent={true} visible={openSuccess}>
-            <View
-              style={{
-                backgroundColor: "#ffffff",
-                padding: 40,
-                borderRadius: 25,
-              }}
-            >
-              <Text style={{ color: "#07da63" }}>Successfully created</Text>
-            </View>
-          </Modal>
-        </View>
-
-        {/* Modal for error */}
+      <Modal animationType="fade" transparent={true} visible={openSuccess}>
         <View style={styles.centeredView}>
-          <Modal animationType="slide" transparent={true} visible={openError}>
-            <View
-              style={{
-                backgroundColor: "#ffffff",
-                padding: 40,
-                borderRadius: 25,
-              }}
-            >
-              <Text style={{ color: "#FF0000" }}>Creation failed</Text>
-            </View>
-          </Modal>
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              padding: 40,
+              borderRadius: 25,
+            }}
+          >
+            <Text style={{ color: "#07da63" }}>Successfully created</Text>
+          </View>
         </View>
+      </Modal>
+
+      {/* Modal for error */}
+      <Modal animationType="slide" transparent={true} visible={openError}>
+        <View style={styles.centeredView}>
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              padding: 40,
+              borderRadius: 25,
+            }}
+          >
+            <Text style={{ color: "#FF0000" }}>Creation failed</Text>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 52,
