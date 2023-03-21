@@ -3,13 +3,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { API_KEY } from "../../constants/constants";
+import DeleteConfirmPopup from "./DeleteConfirmPopup";
 
 const ViewAllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [dates, setDates] = useState([]);
   const [channellingData, setChannellings] = useState([])
+  const [showDelete, setShowDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(0)
 
   useEffect(() => {
+    getAppointments()
+  }, []);
+
+  const getAppointments = () => {
     let appArray = [];
     let datesArr = [];
     axios
@@ -19,7 +26,7 @@ const ViewAllAppointments = () => {
         setChannellings(channelings);
 
         channelings.forEach((item) => {
-            console.log(item.date);
+            console.log(item.date)
             datesArr.push({
                 date: item.date,
                 time: item.startingTime
@@ -32,7 +39,18 @@ const ViewAllAppointments = () => {
         setDates(datesArr);
       })
       .catch((err) => {});
-  }, []);
+  }
+
+  const deleteAppointment = (id) => {
+    console.log('delete');
+    setSelectedId(id);
+    setShowDelete(true);
+  }
+
+  const closeDeletePopup = () => {
+    setShowDelete(false);
+    getAppointments()
+  }
 
   return (
     <SafeAreaView>
@@ -51,17 +69,17 @@ const ViewAllAppointments = () => {
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteAppointment(item._id)}>
                   <Image source={{ uri: 'https://icon-library.com/images/icon-delete/icon-delete-16.jpg' }} style={styles.icon}></Image>
                   </TouchableOpacity>
                 </View>
-                {/* <Text>{dates[index].date}</Text>
-                <Text>{dates[index].time.hrs + ':' + dates[index].time.mins}</Text> */}
               </View>
             </View>
           );
         })}
       </ScrollView>
+
+      <DeleteConfirmPopup appId={selectedId} isShow={showDelete} closePop={closeDeletePopup}></DeleteConfirmPopup>
     </SafeAreaView>
   );
 };

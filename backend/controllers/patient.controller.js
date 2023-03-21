@@ -77,5 +77,39 @@ const searchChannellingBySpecialization = asyncHandler(async (req, res) => {
     res.json(channel);
 })
 
+// Delete Appointment
+const deleteAppointment = asyncHandler(async (req, res) => {
+    // const aptId = req.body.id;
+    
+    // Appointment.findByIdAndDelete({ _id: aptId }).then(() => {
+    //     res.status(200)
+    // }).catch(err => {
+    //     res.status(400)
+    // })
+})
 
-export { makeAppointment, searchChannellingByDoctor, searchChannellingBySpecialization }
+// Edit Appointment
+const deleteAptment = asyncHandler(async (req, res) => {
+    const { aptId } = req.body;
+    const chanellId = "63185e8347042222e7df9d10";
+
+    try {
+        console.log(aptId);
+        Channelling.updateOne({ _id: chanellId }, { $pull: { appointmentList: { _id: aptId } } })
+            .then(() => {
+                console.log('success');
+                res.status(200).json({
+                    data: 'success'
+                });
+            }).catch(err => {
+                res.status(400);
+                console.log(err)
+            })
+    } catch {
+        console.error();
+        res.status(400);
+    }
+})
+
+
+export { makeAppointment, searchChannellingByDoctor, searchChannellingBySpecialization, deleteAppointment, deleteAptment }

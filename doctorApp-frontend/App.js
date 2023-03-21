@@ -17,6 +17,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen
           name="Main menu"
+          options={{ headerShown: false }}
           component={HomeScreen}
         />
         <Stack.Screen
@@ -25,6 +26,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Appointments Menu"
+          options={{ headerShown: false }}
           component={AppointmentMenuScreen}
         />
         <Stack.Screen

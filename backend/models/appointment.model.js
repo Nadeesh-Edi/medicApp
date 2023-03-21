@@ -38,6 +38,11 @@ const appointmentSchema = mongoose.Schema({
             type: Number,
             required: true
         }
+    },
+    status: {
+        type: Boolean,
+        required: false,
+        default: true
     }
 }, {
     timestamps: true,
