@@ -78,17 +78,6 @@ const searchChannellingBySpecialization = asyncHandler(async (req, res) => {
 })
 
 // Delete Appointment
-const deleteAppointment = asyncHandler(async (req, res) => {
-    // const aptId = req.body.id;
-    
-    // Appointment.findByIdAndDelete({ _id: aptId }).then(() => {
-    //     res.status(200)
-    // }).catch(err => {
-    //     res.status(400)
-    // })
-})
-
-// Edit Appointment
 const deleteAptment = asyncHandler(async (req, res) => {
     const { aptId } = req.body;
     const chanellId = "63185e8347042222e7df9d10";
@@ -111,5 +100,55 @@ const deleteAptment = asyncHandler(async (req, res) => {
     }
 })
 
+// Edit Appointment
+const editAppointment = asyncHandler(async (req, res) => {
+    const { aptId, appointmentNo, doctor, patient } = req.body;
 
-export { makeAppointment, searchChannellingByDoctor, searchChannellingBySpecialization, deleteAppointment, deleteAptment }
+    const chanellId = "63185e8347042222e7df9d10";
+
+    Channelling.updateOne({ _id: chanellId, 'appointmentList._id': aptId }, 
+    { $set: { 
+        'appointmentList.$.appointmentNo': appointmentNo,
+        'appointmentList.$.patient': patient,
+        'appointmentList.$.doctor.name': doctor.name,
+        'appointmentList.$.doctor.specialization': doctor.specialization,
+    } }).then(() => {
+        res.status(200).json({
+            data: 'success'
+        });
+    }).catch((err) => {
+        console.log(err);
+        res.status(400).json(err)
+    })
+})
+
+// Get appointment by Id
+const getAppointmentById = asyncHandler(async (req, res) => {
+    const aptNo = req.params.aptNo;
+
+    const chanellId = "63185e8347042222e7df9d10";
+
+    Channelling.findOne({ _id: chanellId }).then((resp) => {
+        let appointmnt = {}
+        resp.appointmentList.forEach(item => {
+            if (item.appointmentNo == aptNo) {
+                appointmnt = item;
+            }
+        });
+
+        if (Object.keys(appointmnt).length === 0) {
+            res.status(400).json({
+                data: 'No record'
+            })
+        } else {
+            res.status(200).json(appointmnt);
+        }
+    }).catch(err => {
+        res.status(400).json({
+            data: 'No record'
+        })
+    })
+})
+
+
+export { makeAppointment, searchChannellingByDoctor, searchChannellingBySpecialization, deleteAptment, editAppointment, getAppointmentById }
