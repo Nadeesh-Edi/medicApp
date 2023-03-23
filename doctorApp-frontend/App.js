@@ -8,6 +8,7 @@ import HomeScreen from './src/screens/Common/HomeScreen';
 import AppointmentMenuScreen from './src/screens/Common/AppointmentMenu';
 import ViewAllAppointments from './src/screens/Appointments/ViewAllAppointments';
 import CreateAppointment from './src/screens/Appointments/CreateAppointment';
+import EditAppointment from './src/screens/Appointments/EditAppointment';
 
 const Stack = createStackNavigator();
 
@@ -32,10 +33,23 @@ export default function App() {
         <Stack.Screen
           name="Appointments"
           component={ViewAllAppointments}
+          options={{ headerStyle: {
+            backgroundColor: '#1AA7EC'
+          } }}
         />
         <Stack.Screen
           name="Create Appointment"
           component={CreateAppointment}
+          options={{ headerStyle: {
+            backgroundColor: '#1AA7EC'
+          } }}
+        />
+        <Stack.Screen
+          name="Edit Appointment"
+          component={EditAppointment}
+          options={{ headerStyle: {
+            backgroundColor: '#1AA7EC'
+          } }}
         />
       </Stack.Navigator>
     </NavigationContainer>
