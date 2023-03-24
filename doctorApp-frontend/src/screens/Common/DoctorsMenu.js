@@ -7,7 +7,7 @@ import {
   ImageBackground,
 } from "react-native";
 
-const HomeScreen = ({ navigation }) => {
+const DoctorsMenuScreen = ({ navigation }) => {
   return (
     <ImageBackground
       source={{
@@ -17,20 +17,21 @@ const HomeScreen = ({ navigation }) => {
       style={styles.backgroundImg}
     >
       <View style={styles.menuContainer}>
-        <TouchableOpacity 
-        style={styles.menuBtn}
+        <TouchableOpacity
+          style={styles.menuBtn}
           onPress={() => {
-            navigation.navigate("Doctors Menu");
-          }} >
-          <Text style={{ color: "#ffffff" }}>DOCTOR MENU</Text>
+            navigation.navigate("Insert Doctor");
+          }}
+        >
+          <Text style={{ color: "#ffffff" }}>ADD NEW DOCTOR</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuBtn}
           onPress={() => {
-            navigation.navigate("Appointments Menu");
+            navigation.navigate("View Doctors");
           }}
         >
-          <Text style={{ color: "#ffffff" }}>APPOINTMENT MENU</Text>
+          <Text style={{ color: "#ffffff" }}>VIEW ALL DOCTORS</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -55,8 +56,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   backgroundImg: {
-    height: '100%'
-  }
+    height: "100%",
+  },
 });
 
-export default HomeScreen;
+export default DoctorsMenuScreen;
