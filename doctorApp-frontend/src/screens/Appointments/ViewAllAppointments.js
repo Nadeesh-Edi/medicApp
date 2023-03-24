@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { API_KEY } from "../../constants/constants";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
+import CallConfirmPopup from "./CallConfirmPopup";
 
 const ViewAllAppointments = ({ navigation }) => {
   const [appointments, setAppointments] = useState([]);
@@ -20,6 +21,9 @@ const ViewAllAppointments = ({ navigation }) => {
   const [channellingData, setChannellings] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
+  const [showCall, setShowCall] = useState(false);
+  const [callNo, setCallNo] = useState(0);
+  const [callName, setCallName] = useState('');
 
   useEffect(() => {
     getAppointments();
@@ -72,6 +76,16 @@ const ViewAllAppointments = ({ navigation }) => {
     navigation.navigate("Edit Appointment", { aptNo: aptNo });
   };
 
+  const callPatient = (phone, name) => {
+    setCallNo(phone)
+    setCallName(name);
+    setShowCall(true)
+  }
+
+  const closeCallPopup = () => {
+    setShowCall(false);
+  }
+
   return (
     <SafeAreaView>
       <ImageBackground
@@ -85,7 +99,7 @@ const ViewAllAppointments = ({ navigation }) => {
           {appointments.map((item, index) => {
             return (
               <View style={styles.listItem} key={index}>
-                <View style={{ flex: 3, flexDirection: "row" }}>
+                <View style={{ flex: 2, flexDirection: "row" }}>
                   <View style={{ flex: 1 }}>
                     <View style={styles.aptNo}>
                       <Text>{item.appointmentNo}</Text>
@@ -103,6 +117,18 @@ const ViewAllAppointments = ({ navigation }) => {
                     flexDirection: "row",
                   }}
                 >
+                  <View style={{ flex: 1 }}>
+                    <TouchableOpacity
+                      onPress={() => callPatient(item.patient.contactNo, item.patient.name)}
+                    >
+                      <Image
+                        source={{
+                          uri: "https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/accept-call-icon.png",
+                        }}
+                        style={styles.icon}
+                      ></Image>
+                    </TouchableOpacity>
+                  </View>
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => openEditPage(item.appointmentNo)}
@@ -133,11 +159,21 @@ const ViewAllAppointments = ({ navigation }) => {
           })}
         </ScrollView>
       </ImageBackground>
+
+      {/* Delete confirmation popup */}
       <DeleteConfirmPopup
         appId={selectedId}
         isShow={showDelete}
         closePop={closeDeletePopup}
       ></DeleteConfirmPopup>
+
+      {/* Call confirmation popup */}
+      <CallConfirmPopup
+        phoneNo={callNo}
+        name={callName}
+        isShow={showCall}
+        closePop={closeCallPopup}
+      ></CallConfirmPopup>
     </SafeAreaView>
   );
 };
