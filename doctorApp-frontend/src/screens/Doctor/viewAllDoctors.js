@@ -13,12 +13,17 @@ import {
 } from "react-native";
 import { API_KEY } from "../../constants/constants";
 import DeleteDoctor from "./deleteDoctor";
+import CallDoctor from "./callingDoctor";
 
 const ViewAllDoctors = ({ navigation }) => {
   const [doctors, setDoctors] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
 
+  const [name, setName] = useState("");
+  const [contactNo, setContactNo] = useState("");
+  const [showCall, setShowCall] = useState(false);
+  
   useEffect(() => {
     getDoctorsList();
   }, []);
@@ -58,6 +63,15 @@ const ViewAllDoctors = ({ navigation }) => {
     navigation.navigate("Edit Doctor", { docID: docID });
   };
 
+  const callDoctor = (phone, name) => {
+    setContactNo(phone)
+    setName(name);
+    setShowCall(true)
+  }
+
+  const closeCallPopup = () => {
+    setShowCall(false);
+  }
 
   return (
     <SafeAreaView>
@@ -74,8 +88,19 @@ const ViewAllDoctors = ({ navigation }) => {
               <View style={styles.listItem} key={index}>
                 <View style={{ flex: 3, flexDirection: "row" }}>
                   <View style={{ flex: 1 }}>
-                    <View style={styles.dname}>
-                      <Text></Text>
+                    <View>
+                    <View style={{ flex: 1, marginTop:45}}>
+                      <TouchableOpacity
+                        onPress={() => callDoctor(item.contactNo, item.name)}
+                      >
+                        <Image
+                          source={{
+                            uri: "https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/accept-call-icon.png",
+                          }}
+                          style={styles.icon}
+                        ></Image>
+                      </TouchableOpacity>
+                  </View>
                     </View>
                   </View>
                   <View style={{ flex: 4 }}>
@@ -124,11 +149,19 @@ const ViewAllDoctors = ({ navigation }) => {
           })}
         </ScrollView>
       </ImageBackground>
+
       <DeleteDoctor
         docID={selectedId}
         isShow={showDelete}
         closePop={closeDeletePopup}
       ></DeleteDoctor>
+
+      <CallDoctor
+        phoneNo={contactNo}
+        name={name}
+        isShow={showCall}
+        closePop={closeCallPopup}
+      ></CallDoctor>
     </SafeAreaView>
   );
 };

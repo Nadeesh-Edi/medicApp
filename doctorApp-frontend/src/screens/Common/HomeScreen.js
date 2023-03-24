@@ -32,6 +32,15 @@ const HomeScreen = ({ navigation }) => {
         >
           <Text style={{ color: "#ffffff" }}>APPOINTMENT MENU</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.menuBtn}
+          onPress={() => {
+            navigation.navigate("About Us");
+          }}
+        >
+          <Text style={{ color: "#ffffff" }}>ABOUT US</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );

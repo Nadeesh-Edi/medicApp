@@ -14,6 +14,7 @@ import DoctorsMenuScreen from './src/screens/Common/DoctorsMenu';
 import NewDoctor from './src/screens/Doctor/addNewDoctor';
 import ViewAllDoctors from './src/screens/Doctor/viewAllDoctors';
 import EditDoctor from './src/screens/Doctor/editDoctor';
+import AboutUs from './src/screens/Doctor/aboutUs';
 
 const Stack = createStackNavigator();
 
@@ -84,6 +85,14 @@ export default function App() {
             backgroundColor: '#1AA7EC'
           } }}
           component={EditDoctor}
+        /> 
+
+        <Stack.Screen
+          name="About Us"
+          options={{ headerStyle: {
+            backgroundColor: '#1AA7EC'
+          } }}
+          component={AboutUs}
         />
       </Stack.Navigator>
     </NavigationContainer>
