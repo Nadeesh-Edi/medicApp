@@ -8,6 +8,7 @@ import path from "path"
 // Routes
 import HospitalStaffRoutes from './routes/hospitalStaff.routes.js';
 import PatientRoutes from './routes/patient.routes.js'
+import DoctorRoutes from './routes/doctorRoutes.js';
 
 dotenv.config()
 
@@ -22,6 +23,7 @@ app.use(express.json())
 // Calling routes
 app.use("/hospitalStaff", HospitalStaffRoutes);
 app.use("/patientRoutes", PatientRoutes);
+app.use("/doctorroutes", DoctorRoutes);
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
