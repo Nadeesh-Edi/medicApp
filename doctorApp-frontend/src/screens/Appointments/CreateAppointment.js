@@ -25,6 +25,7 @@ const CreateAppointment = ({ navigation }) => {
   const [aptTime, setAptTime] = useState("");
   const [openSuccess, setOpeenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const getDoctors = () => {
     axios
@@ -37,7 +38,38 @@ const CreateAppointment = ({ navigation }) => {
       });
   };
 
+  const validateInputs = () => {
+    if (aptNo == 0) {
+      openErrorPopup('Appointment number cannot be 0')
+    } else if (name == "") {
+      openErrorPopup('Name cannot be empty');
+    } else if (age == 0) {
+      openErrorPopup('Age cannot be 0')
+    } else if (phone == "") {
+      openErrorPopup('Contact number cannot be empty')
+    } else if (email == "") {
+      openErrorPopup('Email cannot be empty')
+    } else if (Object.keys(selectedDoc) == 0) {
+      openErrorPopup('Please select a doctor')
+    } else {
+      validateAppointmentNo()
+    }
+  }
+
+  const validateAppointmentNo = () => {
+    axios.get(`${API_KEY}/patientRoutes/getAppointmentById/${aptNo}`).then((res) => {
+      if (Object.keys(res.data) !== 0) {
+        openErrorPopup('Appointment number already exists')
+      } else {
+        createNewAppointment();
+      }
+    }).catch(err => {
+      createNewAppointment();
+    })
+  }
+
   const createNewAppointment = () => {
+    console.log('in create');
     const patient = {
       name: name,
       age: age,
@@ -58,13 +90,14 @@ const CreateAppointment = ({ navigation }) => {
     axios
       .post(`${API_KEY}/patientRoutes/makeAppointment`, passData)
       .then((res) => {
-        openSuccessPopup();
+          openSuccessPopup();
       })
       .catch((err) => {
-        openErrorPopup();
+        openErrorPopup('Creation failed');
       });
   };
 
+  // Open success popup
   const openSuccessPopup = () => {
     setOpeenSuccess(true);
 
@@ -74,7 +107,9 @@ const CreateAppointment = ({ navigation }) => {
     }, 1500);
   };
 
-  const openErrorPopup = () => {
+  // Open error popup
+  const openErrorPopup = (msg) => {
+    setErrorMsg(msg)
     setOpenError(true);
 
     setTimeout(() => {
@@ -119,6 +154,8 @@ const CreateAppointment = ({ navigation }) => {
             style={styles.inputField}
             onChangeText={setAge}
             value={age}
+            keyboardType={"numeric"}
+            numericvalue
             placeholder="Enter patient age"
           ></TextInput>
           <TextInput
@@ -156,7 +193,7 @@ const CreateAppointment = ({ navigation }) => {
             <TouchableOpacity
               style={styles.menuBtn}
               onPress={() => {
-                createNewAppointment();
+                validateInputs();
               }}
             >
               <Text
@@ -196,7 +233,7 @@ const CreateAppointment = ({ navigation }) => {
               borderRadius: 25,
             }}
           >
-            <Text style={{ color: "#FF0000" }}>Creation failed</Text>
+            <Text style={{ color: "#FF0000" }}>{errorMsg}</Text>
           </View>
         </View>
       </Modal>

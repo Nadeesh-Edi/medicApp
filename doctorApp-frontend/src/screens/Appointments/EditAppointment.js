@@ -25,6 +25,7 @@ const EditAppointment = ({ navigation, route }) => {
   const [aptId, setAptId] = useState("");
   const [openSuccess, setOpeenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const getDoctors = () => {
     axios
@@ -36,6 +37,36 @@ const EditAppointment = ({ navigation, route }) => {
         openErrorPopup();
       });
   };
+
+  const validateInputs = () => {
+    if (aptNo == 0) {
+      openErrorPopup('Appointment number cannot be 0')
+    } else if (name == "") {
+      openErrorPopup('Name cannot be empty');
+    } else if (age == 0) {
+      openErrorPopup('Age cannot be 0')
+    } else if (phone == "") {
+      openErrorPopup('Contact number cannot be empty')
+    } else if (email == "") {
+      openErrorPopup('Email cannot be empty')
+    } else if (Object.keys(selectedDoc) == 0) {
+      openErrorPopup('Please select a doctor')
+    } else {
+      validateAppointmentNo()
+    }
+  }
+
+  const validateAppointmentNo = () => {
+    axios.get(`${API_KEY}/patientRoutes/getAppointmentById/${aptNo}`).then((res) => {
+      if (Object.keys(res.data) !== 0) {
+        openErrorPopup('Appointment number already exists')
+      } else {
+        editAptment();
+      }
+    }).catch(err => {
+      editAptment();
+    })
+  }
 
   const getAppointmentDetails = () => {
     axios.get(`${API_KEY}/patientRoutes/getAppointmentById/${aptNo}`).then((res) => {
@@ -78,7 +109,7 @@ const EditAppointment = ({ navigation, route }) => {
         openSuccessPopup();
       })
       .catch((err) => {
-        openErrorPopup();
+        openErrorPopup('Error updating');
       });
   };
 
@@ -91,7 +122,8 @@ const EditAppointment = ({ navigation, route }) => {
     }, 1500);
   };
 
-  const openErrorPopup = () => {
+  const openErrorPopup = (msg) => {
+    setErrorMsg(msg)
     setOpenError(true);
 
     setTimeout(() => {
@@ -176,7 +208,7 @@ const EditAppointment = ({ navigation, route }) => {
             <TouchableOpacity
               style={styles.menuBtn}
               onPress={() => {
-                editAptment();
+                validateInputs();
               }}
             >
               <Text
@@ -216,7 +248,7 @@ const EditAppointment = ({ navigation, route }) => {
               borderRadius: 25,
             }}
           >
-            <Text style={{ color: "#FF0000" }}>Failed</Text>
+            <Text style={{ color: "#FF0000" }}>{errorMsg}</Text>
           </View>
         </View>
       </Modal>
