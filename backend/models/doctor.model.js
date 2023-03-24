@@ -8,6 +8,10 @@ const doctorSchema = mongoose.Schema({
     specialization: {
         type: String,
         required: true
+    },
+    contactNo :{
+        type: String,
+        required: false 
     }
 }, {
     timestamps: true,
