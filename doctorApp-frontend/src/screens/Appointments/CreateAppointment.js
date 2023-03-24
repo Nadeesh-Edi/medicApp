@@ -153,7 +153,7 @@ const CreateAppointment = ({ navigation }) => {
           <TextInput
             style={styles.inputField}
             onChangeText={setAge}
-            value={age}
+            value={String(age)}
             keyboardType={"numeric"}
             numericvalue
             placeholder="Enter patient age"
@@ -185,6 +185,7 @@ const CreateAppointment = ({ navigation }) => {
               return item.name;
             }}
             buttonStyle={styles.selectionBox}
+            dropdownStyle={styles.selectionBox}
           ></SelectDropdown>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
