@@ -162,9 +162,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff'
   },
   titleText: {
-    fontSize: 17,
+    fontSize: 25,
     marginLeft: 15,
     marginTop: 10,
+    marginLeft:120,
+    marginTop:80,
+    marginBottom:20
   },
   menuBtn: {
     padding: 20,
